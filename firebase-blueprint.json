@@ -1,0 +1,110 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Book": {
+      "title": "Book",
+      "description": "Book details and content",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "coverUrl": { "type": "string" },
+        "content": { "type": "array", "items": { "type": "string" }, "description": "Array of pages/chapters" },
+        "isFeatured": { "type": "boolean" }
+      },
+      "required": ["title", "price", "content"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Book purchase orders",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "bookId": { "type": "string" },
+        "bookTitle": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "paymentMethod": { "type": "string", "enum": ["KWIK", "IBAN", "Reference", "Express"] },
+        "amount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "bookId", "status", "paymentMethod"]
+    },
+    "ReadingProgress": {
+      "title": "ReadingProgress",
+      "description": "Tracks where a user left off in a book",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "bookId": { "type": "string" },
+        "lastPageIndex": { "type": "integer" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "bookId", "lastPageIndex"]
+    },
+    "Quote": {
+      "title": "Quote",
+      "description": "Famous quotes from music, movies, or authors",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "author": { "type": "string" },
+        "source": { "type": "string" },
+        "type": { "type": "string", "enum": ["music", "movie", "author"] }
+      },
+      "required": ["text", "author", "type"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "System notifications for users",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "message", "read"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/books/{bookId}": {
+      "schema": "Book",
+      "description": "Available books"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Purchase orders"
+    },
+    "/readingProgress/{progressId}": {
+      "schema": "ReadingProgress",
+      "description": "User reading progress"
+    },
+    "/quotes/{quoteId}": {
+      "schema": "Quote",
+      "description": "Collection of quotes"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    }
+  }
+}
